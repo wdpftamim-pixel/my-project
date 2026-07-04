@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive JavaScript calculator for prime numbers, grades, and finding maximum values">
+    <title>JavaScript Calculator Suite</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --success-gradient: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            --warning-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            --hover-shadow: 0 15px 40px rgba(0,0,0,0.25);
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 30px 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-header {
+            background: var(--primary-gradient);
+            color: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .main-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .card {
+            border: none;
+            border-radius: 20px;
+            box-shadow: var(--card-shadow);
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+            background: white;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .card-header {
+            background: var(--primary-gradient);
+            color: white;
+            border-radius: 0 !important;
+            font-weight: 600;
+            text-align: center;
+            padding: 20px;
+            border-bottom: 4px solid rgba(255,255,255,0.3);
+        }
+
+        .card-header h5 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            padding: 12px 18px;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+        }
+
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            border: none;
+            border-radius: 12px;
+            padding: 12px 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .result-box {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+            border-left: 5px solid #ff6b6b;
+            display: none;
+            animation: slideDown 0.4s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result-box.border-success {
+            background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%);
+            border-left-color: #11998e;
+        }
+
+        .result-box.border-danger {
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            border-left-color: #f5576c;
+        }
+
+        .result-box.border-warning {
+            background: linear-gradient(135deg, #fff9e6 0%, #ffe5b4 100%);
+            border-left-color: #ffa500;
+        }
+
+        .result-box.border-info {
+            background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+            border-left-color: #00bcd4;
+        }
+
+        .result-text {
+            font-size: 1.1rem;
+            margin: 0;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+        }
+
+        .input-label {
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .clear-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 12px;
+            padding: 10px 25px;
+            font-weight: 600;
+            color: white;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+
+        .clear-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+        }
+        /* 1. Disable scroll arrows for Chrome, Safari, Edge, and Opera */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+        @media (max-width: 768px) {
+            .main-header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card-body {
+                padding: 20px;
+            }
+
+            .clear-btn {
+                margin-left: 0;
+                margin-top: 10px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main Header -->
+        <div class="main-header">
+            <h1>🧮 JavaScript Calculator Suite</h1>
+            <p class="mb-0">Advanced Mathematical Operations with Validation</p>
+        </div>
+
+        <!-- Prime Number Checker -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">🔢 Prime Number Checker</h5>
+            </div>
+            <div class="card-body">
+                <label for="primeInput" class="input-label">Enter a Positive Integer (≥ 2)</label>
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <input 
+                            type="number" 
+                            id="primeInput" 
+                            class="form-control" 
+                            placeholder="Enter a positive integer" 
+                            min="2"
+                            aria-label="Prime number input"
+                            onkeypress="handleEnterKey(event, checkPrime)">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary w-100" onclick="checkPrime()" aria-label="Check if number is prime">
+                            Check Prime
+                        </button>
+                    </div>
+                </div>
+                <div id="primeResult" class="result-box" role="alert" aria-live="polite"></div>
+            </div>
+        </div>
+
+        <!-- Grade Calculation -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">📊 Student Grade Calculator</h5>
+            </div>
+            <div class="card-body">
+                <label for="gradeInput" class="input-label">Enter Percentage (0-100)</label>
+                <div class="row g-3">
+                    <div class="col-md-8">
+                        <input 
+                            type="number" 
+                            id="gradeInput" 
+                            class="form-control" 
+                            placeholder="Enter percentage (0-100)" 
+                            min="0" 
+                            max="100" 
+                            step="0.01"
+                            aria-label="Grade percentage input"
+                            onkeypress="handleEnterKey(event, calculateGrade)">
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary w-100" onclick="calculateGrade()" aria-label="Calculate grade">
+                            Calculate Grade
+                        </button>
+                    </div>
+                </div>
+                <div id="gradeResult" class="result-box" role="alert" aria-live="polite"></div>
+            </div>
+        </div>
+
+        <!-- Maximum Number Finder -->
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">🎯 Maximum Number Finder</h5>
+            </div>
+            <div class="card-body">
+                <label class="input-label">Enter Three Numbers</label>
+                <div class="row g-3 mb-3">
+                    <div class="col-md-4">
+                        <input 
+                            type="number" 
+                            id="num1" 
+                            class="form-control" 
+                            placeholder="First number" 
+                            step="any"
+                            aria-label="First number"
+                            onkeypress="handleEnterKey(event, findMaximum)">
+                    </div>
+                    <div class="col-md-4">
+                        <input 
+                            type="number" 
+                            id="num2" 
+                            class="form-control" 
+                            placeholder="Second number" 
+                            step="any"
+                            aria-label="Second number"
+                            onkeypress="handleEnterKey(event, findMaximum)">
+                    </div>
+                    <div class="col-md-4">
+                        <input 
+                            type="number" 
+                            id="num3" 
+                            class="form-control" 
+                            placeholder="Third number" 
+                            step="any"
+                            aria-label="Third number"
+                            onkeypress="handleEnterKey(event, findMaximum)">
+                    </div>
+                </div>
+                <div class="d-flex flex-wrap gap-2">
+                    <button class="btn btn-primary flex-grow-1" onclick="findMaximum()" aria-label="Find maximum number">
+                        Find Maximum
+                    </button>
+                    <button class="clear-btn" onclick="clearMaxInputs()" aria-label="Clear all inputs">
+                        Clear All
+                    </button>
+                </div>
+                <div id="maxResult" class="result-box" role="alert" aria-live="polite"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        'use strict';
+
+        // Utility function to handle Enter key press
+        function handleEnterKey(event, callback) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                callback();
+            }
+        }
+
+        // Prime Number Checker with Enhanced Validation
+        function checkPrime() {
+            const input = document.getElementById('primeInput').value.trim();
+            const number = parseInt(input);
+            const resultDiv = document.getElementById('primeResult');
+
+            // Comprehensive input validation
+            if (input === '') {
+                showResult(resultDiv, '⚠️ Please enter a number.', 'danger');
+                return;
+            }
+
+            if (isNaN(number)) {
+                showResult(resultDiv, `❌ "${input}" is not a valid number. Please enter an integer.`, 'danger');
+                return;
+            }
+
+            if (number < 2) {
+                showResult(resultDiv, `⚠️ ${number} is too small. Please enter an integer greater than or equal to 2.`, 'warning');
+                return;
+            }
+
+            if (!Number.isInteger(parseFloat(input))) {
+                showResult(resultDiv, `⚠️ ${input} is not an integer. Please enter a whole number.`, 'warning');
+                return;
+            }
+
+            // Efficient prime checking algorithm
+            let isPrime = true;
+            
+            if (number === 2 || number === 3) {
+                isPrime = true;
+            } else if (number % 2 === 0 || number % 3 === 0) {
+                isPrime = false;
+            } else {
+                // Check divisibility up to square root (6k ± 1 optimization)
+                for (let i = 5; i * i <= number; i += 6) {
+                    if (number % i === 0 || number % (i + 2) === 0) {
+                        isPrime = false;
+                        break;
+                    }
+                }
+            }
+
+            // Display result with enhanced formatting
+            if (isPrime) {
+                showResult(resultDiv, 
+                    `<p class="result-text"><strong>✅ ${number.toLocaleString()}</strong> is a <strong>Prime Number</strong></p>
+                    <p class="mb-0 mt-2" style="font-size: 0.9rem; color: #666;">A prime number has exactly two factors: 1 and itself.</p>`, 
+                    'success');
+            } else {
+                showResult(resultDiv, 
+                    `<p class="result-text"><strong>❌ ${number.toLocaleString()}</strong> is <strong>Not a Prime Number</strong></p>
+                    <p class="mb-0 mt-2" style="font-size: 0.9rem; color: #666;">This number has more than two factors.</p>`, 
+                    'warning');
+            }
+        }
+
+        // Grade Calculator with Detailed Feedback
+        function calculateGrade() {
+            const input = document.getElementById('gradeInput').value.trim();
+            const percentage = parseFloat(input);
+            const resultDiv = document.getElementById('gradeResult');
+
+            // Enhanced input validation
+            if (input === '') {
+                showResult(resultDiv, '⚠️ Please enter a percentage.', 'danger');
+                return;
+            }
+
+            if (isNaN(percentage)) {
+                showResult(resultDiv, `❌ "${input}" is not a valid number. Please enter a numeric value.`, 'danger');
+                return;
+            }
+
+            if (percentage < 0 || percentage > 100) {
+                showResult(resultDiv, `⚠️ ${percentage}% is out of range. Please enter a value between 0 and 100.`, 'warning');
+                return;
+            }
+
+            // Grade calculation with detailed feedback
+            let grade, gradePoint, feedback, emoji;
+            
+            if (percentage >= 80) {
+                grade = "A+";
+                gradePoint = "5.00";
+                feedback = "Outstanding Performance!";
+                emoji = "🏆";
+            } else if (percentage >= 70) {
+                grade = "A";
+                gradePoint = "4.00";
+                feedback = "Excellent Work!";
+                emoji = "🌟";
+            } else if (percentage >= 60) {
+                grade = "B";
+                gradePoint = "3.00";
+                feedback = "Good Job!";
+                emoji = "👍";
+            } else if (percentage >= 50) {
+                grade = "C";
+                gradePoint = "2.00";
+                feedback = "Satisfactory Performance";
+                emoji = "📚";
+            } else if (percentage >= 40) {
+                grade = "D";
+                gradePoint = "1.00";
+                feedback = "Needs Improvement";
+                emoji = "📖";
+            } else {
+                grade = "F";
+                gradePoint = "0.00";
+                feedback = "Must Retake";
+                emoji = "❌";
+            }
+
+            // Display comprehensive result
+            showResult(resultDiv, 
+                `<div class="result-text">
+                    <p><strong>Percentage:</strong> ${percentage.toFixed(2)}%</p>
+                    <p><strong>Grade:</strong> <span style="font-size: 1.5rem; color: #667eea;">${grade}</span></p>
+                    <p><strong>Grade Point:</strong> ${gradePoint}</p>
+                    <p class="mb-0"><strong>${emoji} ${feedback}</strong></p>
+                </div>`, 
+                'info');
+        }
+
+        // Maximum Number Finder with Enhanced Logic
+        function findMaximum() {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            const num3 = parseFloat(document.getElementById('num3').value);
+            const resultDiv = document.getElementById('maxResult');
+
+            // Comprehensive validation
+            const inputs = [
+                { value: num1, name: 'first' },
+                { value: num2, name: 'second' },
+                { value: num3, name: 'third' }
+            ];
+
+            const invalidInputs = inputs.filter(input => isNaN(input.value));
+
+            if (invalidInputs.length === 3) {
+                showResult(resultDiv, '⚠️ Please enter valid numbers in all three fields.', 'danger');
+                return;
+            }
+
+            if (invalidInputs.length > 0) {
+                const missing = invalidInputs.map(input => input.name).join(', ');
+                showResult(resultDiv, `⚠️ Please enter a valid number for the ${missing} field(s).`, 'warning');
+                return;
+            }
+
+            // Find maximum using Math.max
+            const maximum = Math.max(num1, num2, num3);
+            
+            // Check if all numbers are equal
+            const allEqual = (num1 === num2 && num2 === num3);
+            
+            // Determine which numbers are maximum
+            const maxNumbers = [];
+            if (num1 === maximum) maxNumbers.push('First');
+            if (num2 === maximum) maxNumbers.push('Second');
+            if (num3 === maximum) maxNumbers.push('Third');
+
+            let additionalInfo = '';
+            if (allEqual) {
+                additionalInfo = '<p class="mt-2 mb-0" style="font-size: 0.9rem; color: #666;">✨ All three numbers are equal!</p>';
+            } else if (maxNumbers.length > 1) {
+                additionalInfo = `<p class="mt-2 mb-0" style="font-size: 0.9rem; color: #666;">🔗 The ${maxNumbers.join(' and ')} numbers are tied for maximum.</p>`;
+            }
+
+            // Display result
+            showResult(resultDiv, 
+                `<div class="result-text">
+                    <p><strong>Numbers Entered:</strong> ${num1}, ${num2}, ${num3}</p>
+                    <p><strong>Maximum Number:</strong> <span style="font-size: 1.8rem; color: #667eea;">${maximum}</span></p>
+                    ${additionalInfo}
+                </div>`, 
+                'success');
+        }
+
+        // Clear all inputs for maximum finder
+        function clearMaxInputs() {
+            document.getElementById('num1').value = '';
+            document.getElementById('num2').value = '';
+            document.getElementById('num3').value = '';
+            document.getElementById('maxResult').style.display = 'none';
+            document.getElementById('num1').focus();
+        }
+
+        // Enhanced utility function to display results with animations
+        function showResult(element, message, type) {
+            const typeClass = {
+                'success': 'border-success',
+                'danger': 'border-danger', 
+                'warning': 'border-warning',
+                'info': 'border-info'
+            };
+            
+            // Hide element first for animation
+            element.style.display = 'none';
+            
+            // Update content and styling
+            element.innerHTML = message;
+            element.className = `result-box ${typeClass[type] || 'border-primary'}`;
+            
+            // Show with animation
+            setTimeout(() => {
+                element.style.display = 'block';
+            }, 10);
+        }
+
+        // Clear inputs on page load if needed
+        window.addEventListener('load', () => {
+            console.log('JavaScript Calculator Suite loaded successfully! ✅');
+        });
+    </script>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
+    <script src="myscript.js"></script>
+    <script>
+      function naim(){
+            let b="";
+            let a=document.getElementById("num").value;//10
+            for(let i=0;i<a;i++){//0,1,2,3,4,5,6,7,8,9
+                b+=`<div>${i+1}</div>`;//b+=a  =>  b=b+a
+            }
+            document.getElementById("output").innerHTML=b;
+        }
+
+        function asif(){
+            let a=document.getElementById("num").value;
+            if(a>0){
+                document.getElementById("output").innerHTML="Positive";
+            }
+            else if(a==0){
+                document.getElementById("output").innerHTML="Zero";
+            }
+            else{
+                document.getElementById("output").innerHTML="Negative";
+            }
+        }
+
+        asraf=function(){
+            let a=document.getElementById("num").value;
+            let b=a%2;//7%2=1,  10%2=0
+            if(b==0){
+                document.getElementById("output").innerHTML="Even";
+            }
+            else{
+                document.getElementById("output").innerHTML="Odd";
+            }
+        }
+        monirul=function(){
+            let a=document.getElementById("num").value;
+            for(let i=2;i<=a/2;i++){
+                let c=a%i;
+                if(c==0){
+                    document.getElementById("output").innerHTML="Not Prime";
+                    return;
+                }
+            }
+            document.getElementById("output").innerHTML="Prime";
+        }
+
+        function sadi(){
+            let n=document.getElementById("num").value;
+            let sum=0;
+            for(let i=1;i<=n;i++){
+                sum+=i;
+            }
+            document.getElementById("output").innerHTML=`The sum is ${sum}.`;
+        }
+
+        function mizanur(){
+            let n=document.getElementById("num").value;
+            let sum=1;
+            for(let i=1;i<=n;i++){
+                sum*=i;//sum=sum*i
+            }
+            document.getElementById("output").innerHTML=`The Factorial is ${sum}.`;
+        }
+
+        function Tamim(){
+            let n=document.getElementById("num").value;
+            document.getElementById("output").innerHTML=Number(n)+parseInt(n);
+        }
+        Mobile=function(){
+            let n=document.getElementById("num").value;
+            let p=/^(88)?0[0-9]{4}(-)?[0-9]{6}$/;
+            if(!p.test(n))
+             document.getElementById("output").innerHTML="Invalid Mobile";
+            else
+             document.getElementById("output").innerHTML="Valid Mobile";   
+        }
+        Email=function(){
+            let n=document.getElementById("num").value;
+            let p=/^([a-zA-Z0-9_]+)(\@)([a-zA-Z0-9_]+)(\.)([a-zA-Z0-9_]+){2,4}$/;
+            if(!p.test(n))
+             document.getElementById("output").innerHTML="Invalid Email";
+            else{
+                   document.getElementById("output").innerHTML="Valid Email";
+            }
+        }
+        Website=function(){
+            let n=document.getElementById("num").value;
+            let p=/^..............$/;
+            if(!p.test(n))
+             document.getElementById("output").innerHTML="Invalid Website";
+            else
+             document.getElementById("output").innerHTML="Valid Website";
+        }
+        function greater2(){
+            let a=document.getElementById("num1").value;
+            let b=document.getElementById("num2").value;
+            if(a>b){
+                document.getElementById("output").innerHTML=`${a} is greater.`;
+            }
+            else{
+                document.getElementById("output").innerHTML=`${b} is greater.`;
+            }
+        }
+        function greater3(){
+
+        }
+         a=2;
+    switch(a){
+        case 1:
+            console.log("Ball");
+            break;
+        case 2:
+            console.log("Bat");
+            break;
+        case 3:
+            console.log("Wicket");
+            break;
+        default:
+            console.log("Out of Range");
+            break;           
+                
+    }
+
+    </script>
+</head>
+<body>
+    <div class="container">
+    <form method="post">
+        <div class="form-group row">
+            <label class="col-sm-2 form-label" for="num">Number</label>
+            <div class="col-sm-10">
+                <input type="text" name="num" id="num" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="offset-sm-2 col-sm-10">
+                <button type="button" name="b1" id="b1" onclick="naim()" class="btn btn-success">Show all Values</button>
+                <button type="button" name="b2" id="b2" onclick="asif()" class="btn btn-success">Positive/Negative</button>
+                <button type="button" name="b3" id="b3" onclick="asraf()" class="btn btn-success">Even/Odd</button>
+                <button type="button" name="b4" id="b4" onclick="monirul()" class="btn btn-success">Is Prime?</button>
+                <button type="button" name="b5" id="b5" onclick="sadi()" class="btn btn-success">Sum Of Series-1+2+3+...+n</button>
+                <button type="button" name="b6" id="b6" onclick="mizanur()" class="btn btn-success">Factorial-n!(1.2.3.....n)</button>
+                <button type="button" name="b7" id="b7" onclick="Tamim()" class="btn btn-success">Double by Addition</button>
+                <button type="button" name="b7" id="b7" onclick="Mobile()" class="btn btn-success">Check Bangladeshi Mobile</button>
+                <button type="button" name="b7" id="b7" onclick="Email()" class="btn btn-success">Check Email</button>
+                <button type="button" name="b7" id="b7" onclick="Website()" class="btn btn-success">Check Website</button>
+                <button type="button" name="b7" id="b7" onclick="greater2()" class="btn btn-success">Bigger Number</button>
+                <button type="button" name="b7" id="b7" onclick="greater3()" class="btn btn-success">Biggest Number</button>
+                
+                
+                
+            </div>
+        </div>
+
+    </form>
+    <div id="output"></div>
+    </div>
+    <div class="form-group row">
+            <label class="col-sm-2 form-label" for="num1">First Number</label>
+            <div class="col-sm-10">
+                <input type="text" name="num" id="num1" class="form-control"/>
+            </div>           
+        </div>
+    <div class="form-group row">
+         <label class="col-sm-2 form-label" for="num2">Second Number</label>
+            <div class="col-sm-10">
+                <input type="text" name="num" id="num2" class="form-control"/>
+            </div>
+    </div>   
+    <div class="form-group row">
+         <label class="col-sm-2 form-label" for="num3">Third Number</label>
+            <div class="col-sm-10">
+                <input type="text" name="num" id="num3" class="form-control"/>
+            </div>
+    </div>      
+</body>
+</html>   

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ANALOG Clock</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+        .clock-container {
+            text-align: center;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0 , 0, 0, 0.9);
+        }
+    .clock-title {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        font-weight: 300;
+    }
+    .clock {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        box-shadow: 0 0 30px rgba(0 , 0, 0, 0.6);
+        position: relative;
+        margin: 0 auto;
+        border: 10px solid rgba(255, 255, 255, 0.2);
+    }
+    .clock-face {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform: translateY(-3px);
+    }
+    .hand {
+        width: 50%;
+        height: 6px;
+        background: white;
+        position: absolute;
+        top: 50%;
+        transform-origin: 100%;
+        transform: rotate(90deg);
+        transition: all 0.05s;
+        transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
+        box-shadow: 0 0 30px rgba(0 , 0, 0, 0.2);
+        border-radius: 50% 0 0 50%;
+    }
+    .hour-hand {
+        height: 8px;
+        width: 35%;
+        left: 15%;
+        background: #ffcc00;
+        z-index: 10;
+    }
+    .minute-hand {
+         height: 6px;
+        width: 45%;
+        left: 5%;
+        background: #4cd964;
+        z-index: 20;
+    }
+    .second-hand {
+         height: 3px;
+        background: #ff3b30;
+        z-index: 30;
+    }
+    .center-circle {
+        width: 20px;
+        height: 20px;
+        background-color: white;
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 40;
+        box-shadow: 0 0 10px rgba(0 , 0, 0, 0.6);
+    }
+    .number {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        color: white;
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+    .number-1 { transform: rotate(30deg);}
+    .number-2 { transform: rotate(60deg);}
+    .number-3 { transform: rotate(90deg);}
+    .number-4 { transform: rotate(120deg);}.number-1 { transform: rotate(30deg);}
+    .number-5 { transform: rotate(150deg);}
+    .number-6 { transform: rotate(180deg);}
+    .number-7 { transform: rotate(210deg);}.number-1 { transform: rotate(30deg);}
+    .number-8 { transform: rotate(240deg);}
+    .number-9 { transform: rotate(270deg);}
+    .number-10 { transform: rotate(300deg);}
+    .number-11 { transform: rotate(330deg);}
+    .number-12 { transform: rotate(0deg);}
+    .digital-time {
+        font-size: 1.8rem;
+        margin-top: 40px;
+        background: rgba(0 , 0, 0, 0.3);
+        padding: 10px 20px;
+        border-radius: 10px;
+        display: inline-block;
+        letter-spacing: 2px;
+    }
+    .date-display {
+        margin-top: 20px;
+        font-size: 1.2rem;
+        opacity: 0.8;
+    }
+    .channel-info {
+        margin-top: 40px;
+        font-size: 1rem;
+        opacity: 0.7;
+    }
+    .channel-info a {
+        color: #ffcc00;
+        text-decoration: none;
+    }
+    .channel-info a:hover {
+        text-decoration: underline;
+    }
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <h1 class="clock-title">Modern Analog clock</h1>
+        <div class="clock">
+            <div class="clock-face">
+                <div class="hand hour-hand"></div>
+                <div class="hand minute-hand"></div>
+                <div class="hand second-hand"></div>
+                <div class="center-circle"></div>
+                <!-- clock number -->
+                 <div class="number number-1">1</div>
+                 <div class="number number-2">2</div>
+                 <div class="number number-3">3</div>
+                 <div class="number number-4">4</div>
+                 <div class="number number-5">5</div>
+                 <div class="number number-6">6</div>
+                 <div class="number number-7">7</div>
+                 <div class="number number-8">8</div>
+                 <div class="number number-9">9</div>
+                 <div class="number number-10">10</div>
+                 <div class="number number-11">11</div>
+                 <div class="number number-12">12</div>
+            </div>
+        </div>
+        <div class="digital-time" id="digitalTime"></div>
+        <div class="date-display" id="dateDisplay"></div>
+        <div class="channel-info">
+            <p>CodeWithTamim</p>
+        </div>
+    </div>
+    <script>
+      $(document).ready(function() {
+        function updateClock() {
+            var date = new Date();
+            var seconds = date.getSeconds();
+            var minutes = date.getMinutes();
+            var hours = date.getHours();
+            var secondsRotation = seconds * 6;
+            var minutesRotation = minutes * 6;
+            var hoursRotation = hours * 30 + (minutes / 2);
+            //apply rotation
+            $('.second-hand').css({'transform': 'rotate(' + (secondsRotation + 90) + 'deg)'});
+            $('.minute-hand').css({'transform': 'rotate(' + (minutesRotation + 90) + 'deg)'});
+            $('.hour-hand').css({'transform': 'rotate(' + (hoursRotation + 90) + 'deg)'});
+            //digital time
+            var ampm = hours >= 12 ? 'PM' : 'AM';
+            var displayHours = hours % 12;
+            displayHours = displayHours ? displayHours : 12;
+            var displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+            var displaySeconds = seconds < 10 ? '0' + seconds : seconds;
+            $('#digitalTime').text(displayHours + ':' + displayMinutes + ':' + displaySeconds + ' ' + ampm);
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            $('#dateDisplay').text(date.toLocaleDateString(undefined, options));
+            //update every second
+            var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            $('#dateDisplay').text(date.toLocaleDateString(undefined, options));
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+      }); 
+    </script>
+    <!-- <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+    function updateClock() {
+        var date = new Date();
+        var seconds = date.getSeconds();
+        var minutes = date.getMinutes();
+        var hours = date.getHours();
+
+        var secondsRotation = seconds * 6;        // 360/60
+        var minutesRotation = minutes * 6;        // 360/60
+        var hoursRotation = hours * 30 + (minutes / 2); // 360/12 + extra movement
+
+        // Apply rotation (PURE JS)
+        document.querySelector('.second-hand').style.transform =
+            'rotate(' + (secondsRotation + 90) + 'deg)';
+
+        document.querySelector('.minute-hand').style.transform =
+            'rotate(' + (minutesRotation + 90) + 'deg)';
+
+        document.querySelector('.hour-hand').style.transform =
+            'rotate(' + (hoursRotation + 90) + 'deg)';
+
+        // Digital Time
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        var displayHours = hours % 12 || 12;
+        var displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+        var displaySeconds = seconds < 10 ? '0' + seconds : seconds;
+
+        document.getElementById("digitalTime").textContent =
+            displayHours + ":" + displayMinutes + ":" + displaySeconds + " " + ampm;
+
+        // Date
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById("dateDisplay").textContent =
+            date.toLocaleDateString(undefined, options);
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+});
+</script> -->
+</body>
+</html>

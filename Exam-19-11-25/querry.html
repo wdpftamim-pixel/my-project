@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .hidden{
+            display:none;
+        }
+         .transparent { opacity: 0; }
+ .fadeable { transition: opacity .5s ease-in }
+    </style>
+
+</head>
+<body>
+    <h1>Event Capture: From outermost element to the target. Example: body>div>button<br/>
+    Event Bubbling: From target to the outermost element. Example: button-div-body
+    </h1>
+    <div style="border:1px solid pink" onclick="alert('hello');">
+    <button type="button" onclick="abc(event)">Click Me</button>
+    </div>
+    <button id="mybutton">Click me again</button>
+    <br/>
+     Hello <img src="x.png" onerror="alert('hacked')" style="border:1px solid red" alt="x-files"/>
+<br/>
+<a href="Digital-Clock.html" onclick="def(event)">Click</a>
+<br/>
+<button onclick="AddTag()">Add New Custom Tag: p</button>
+<br/>
+<div id="output" style="border:1px solid red; margin:10px auto;height:50vh; width:50vw;text-align:center"></div>
+<br/>
+<button onclick="HideOutput()">Hide Output</button>
+<br/>
+<button onclick="AddAttribute()">Add Attribute or Style</button>
+<br/>
+<button onclick="InlineStyle()">Inline Style</button>
+<br/>
+ <div id="subscribe" class="fadeable notification">Look at me, It's magic!</div>
+ <br/>
+ <button onclick="HideMe()">Hide Transacparent</button>
+    <script>
+        function abc(event){
+            //stopPropagation: stops Event Capturing or Event Bubbling
+            //only button events, not his parent div event
+            event.stopPropagation();
+            console.log(document.URL);//location of my page
+let name = new URL(document.URL).searchParams.get("name");//query string which key is: name
+document.querySelector('h1').innerHTML = "Hello " + name;
+        }
+        function def(event){
+            //preventDefault: forgets default behavior(href in anchor) and executes click event
+            event.preventDefault();
+            console.log("hello");
+        }
+        function AddTag(){
+            let paragraph = document.createElement("p"); // Create an empty <p> element
+            let emphasis = document.createElement("em"); // Create an empty <em> element
+            emphasis.append("World"); // <em>World</em>                  
+            // Add text to the <em> element
+            paragraph.append("Hello ", emphasis, "!");   // Hello <em>World</em>!
+            paragraph.prepend("¡");// ¡Hello <em>World</em>!
+            document.getElementById("output").appendChild(paragraph);
+        }
+        function HideOutput(){
+            document.querySelector("#output").classList.add("hidden");
+        }
+        function AddAttribute(){
+            document.querySelector("#output").setAttribute("style","display:block;border:1px solid red; margin:10px auto; width:50%;text-align:center")
+        }
+        function InlineStyle(){
+            document.querySelector("#output").style.color="blue";
+        }
+        function HideMe(){
+            document.querySelector("#subscribe").classList.add("transparent");
+        }
+</script>
+
+<script>
+    let b = document.querySelector("#mybutton");//querySelector: find an element
+    b.onclick = function() { 
+        console.log("Thanks for clicking   me!"); 
+    };
+    //addEventListener: Registers an event handler
+    b.addEventListener("click", () => { 
+        console.log("Thanks  again!"); 
+    });
+    </script>
+
+</body>
+</html>

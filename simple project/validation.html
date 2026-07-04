@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Form Validation — Mini Web App</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="center-box">
+      <h4 class="mb-3">Comprehensive Form Validation</h4>
+
+      <div id="val_error" class="text-danger mb-2"></div>
+
+      <div class="mb-2">
+        <label class="form-label" for="v_name">Full name</label>
+        <input id="v_name" class="form-control" />
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label" for="v_email">Email</label>
+        <input id="v_email" class="form-control" />
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label" for="v_mobile">Mobile (11 digits)</label>
+        <input id="v_mobile" class="form-control" />
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Website</label>
+        <input id="v_website" class="form-control" placeholder="https://example.com" />
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label" for="v_pass">Password</label>
+        <input id="v_pass" type="password" class="form-control" />
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label">Gender</label>
+        <div>
+          <input type="radio" name="gender" id="g_m" value="M"> <label for="g_m">Male</label>
+          <input type="radio" name="gender" id="g_f" value="F" class="ms-2"> <label for="g_f">Female</label>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <label class="form-label" for="v_country">Select Country</label>
+        <select id="v_country" class="form-select">
+          <option value="">Choose...</option>
+          <option>Bangladesh</option>
+          <option>India</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <div class="mb-3 form-check">
+        <input id="v_terms" type="checkbox" class="form-check-input">
+        <label class="form-check-label" for="v_terms">I accept terms</label>
+      </div>
+
+      <div class="d-grid gap-2">
+        <button class="btn btn-primary" onclick="validateForm()">Validate</button>
+        <a class="btn btn-outline-secondary" href="dashboard.html">Back to Dashboard</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- bootstrap & app -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    function validateForm(){
+      const name = document.getElementById('v_name').value.trim();
+      const email = document.getElementById('v_email').value.trim();
+      const mobile = document.getElementById('v_mobile').value.trim();
+      const website = document.getElementById('v_website').value.trim();
+      const pass = document.getElementById('v_pass').value;
+      const country = document.getElementById('v_country').value;
+      const terms = document.getElementById('v_terms').checked;
+      const gender = document.querySelector('input[name="gender"]:checked');
+
+      const err = document.getElementById('val_error');
+      err.innerHTML = '';
+
+      const emailReg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      const mobileReg = /^[0-9]{11}$/;
+      const webReg = /^(https?:\/\/)?([\w\d-]+\.){1,2}[a-zA-Z]{2,6}\/?$/;
+
+      if (!name) return err.innerHTML = 'Name required';
+      if (!emailReg.test(email)) return err.innerHTML = 'Invalid email';
+      if (!mobileReg.test(mobile)) return err.innerHTML = 'Mobile must be 11 digits';
+      if (!webReg.test(website)) return err.innerHTML = 'Invalid website';
+      if (pass.length < 6) return err.innerHTML = 'Password min 6 chars';
+      if (!gender) return err.innerHTML = 'Select gender';
+      if (!country) return err.innerHTML = 'Select country';
+      if (!terms) return err.innerHTML = 'Accept terms';
+
+      // success modal
+      const modalEl = document.createElement('div');
+      modalEl.innerHTML = `
+        <div class="modal-backdrop fade show"></div>
+        <div class="modal show d-block" tabindex="-1">
+          <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header"><h5 class="modal-title">Success</h5></div>
+              <div class="modal-body">Form validated successfully!</div>
+              <div class="modal-footer"><button class="btn btn-primary" onclick="document.body.removeChild(this.closest('.modal')); location.href='dashboard.html'">OK</button></div>
+            </div>
+          </div>
+        </div>`;
+      document.body.appendChild(modalEl);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Operators & Control Flow</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --accent-color: #9b59b6;
+            --success-color: #27ae60;
+            --danger-color: #e74c3c;
+            --warning-color: #f39c12;
+            --light-color: #ecf0f1;
+            --dark-color: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 30px 0;
+            color: #333;
+        }
+
+        .main-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: fadeInDown 0.8s ease;
+        }
+
+        .main-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+
+        .main-header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        .learning-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .app-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .app-header h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .app-body {
+            padding: 30px;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-color);
+        }
+
+        .section-title i {
+            color: var(--primary-color);
+        }
+
+        .btn-action {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn-action:active {
+            transform: translateY(0);
+        }
+
+        .btn-action i {
+            font-size: 1.2rem;
+        }
+
+        .output-container {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 12px;
+            background-color: #f8f9fa;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .output-title {
+            font-weight: 600;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .output-title i {
+            color: var(--primary-color);
+        }
+
+        .output-content {
+            font-size: 1rem;
+            line-height: 1.6;
+            font-family: 'Courier New', monospace;
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .card-container {
+            margin-top: 20px;
+        }
+
+        .card {
+            border-radius: 8px;
+            border: none;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 12px 15px;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        .code-block {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .result-block {
+            background-color: #e8f4fc;
+            border-left: 4px solid var(--primary-color);
+            padding: 10px;
+            border-radius: 0 5px 5px 0;
+            margin-bottom: 10px;
+        }
+
+        .interactive-area {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--secondary-color);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-label i {
+            color: var(--primary-color);
+        }
+
+        .form-control {
+            border: 1.5px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #fafafa;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            outline: none;
+            background-color: white;
+        }
+
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 4px solid var(--danger-color);
+        }
+
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 4px solid var(--success-color);
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header h1 {
+                font-size: 2rem;
+            }
+            
+            .app-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-header">
+        <h1><i class="fas fa-code-branch"></i> JavaScript Operators & Control Flow</h1>
+        <p>Interactive examples to understand JavaScript operators, loops, and control structures</p>
+    </div>
+
+    <div class="container">
+        <div class="learning-container">
+            <div class="app-header">
+                <h2><i class="fas fa-sitemap"></i> JavaScript Control Flow Playground</h2>
+            </div>
+
+            <div class="app-body">
+                <!-- Operators Section -->
+                <div class="section-title">
+                    <i class="fas fa-calculator"></i> JavaScript Operators
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <button type="button" class="btn-action" onclick="showTernaryOperator()">
+                            <i class="fas fa-question-circle"></i> Ternary Operator
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn-action" onclick="showNullishCoalescing()">
+                            <i class="fas fa-code"></i> Nullish Coalescing
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn-action" onclick="showObjectOperators()">
+                            <i class="fas fa-cube"></i> Object Operators
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Control Flow Section -->
+                <div class="section-title">
+                    <i class="fas fa-project-diagram"></i> Control Flow Statements
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-4">
+                        <button type="button" class="btn-action" onclick="showIfElseExamples()">
+                            <i class="fas fa-code"></i> If-Else Examples
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn-action" onclick="showSwitchExamples()">
+                            <i class="fas fa-exchange-alt"></i> Switch Examples
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn-action" onclick="showLoopExamples()">
+                            <i class="fas fa-redo"></i> Loop Examples
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Special Operators Section -->
+                <div class="section-title">
+                    <i class="fas fa-exclamation-triangle"></i> Special Operators & Error Handling
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <button type="button" class="btn-action" onclick="showEvalExample()">
+                            <i class="fas fa-terminal"></i> Eval Function
+                        </button>
+                    </div>
+                    <div class="col-md-6">
+                        <button type="button" class="btn-action" onclick="showErrorHandling()">
+                            <i class="fas fa-bug"></i> Error Handling
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Output Display -->
+                <div class="output-container">
+                    <div class="output-title">
+                        <i class="fas fa-desktop"></i> Output Display
+                    </div>
+                    <div class="output-content" id="output">
+                        Click the buttons above to see JavaScript operators and control flow examples.
+                    </div>
+                </div>
+
+                <!-- Interactive GPA Calculator -->
+                <div class="section-title">
+                    <i class="fas fa-calculator"></i> Interactive GPA Calculator
+                </div>
+                
+                <div class="interactive-area">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="gradeInput" class="form-label">
+                                    <i class="fas fa-graduation-cap"></i> Enter Grade (A+, A, A-, B+, etc.)
+                                </label>
+                                <input type="text" id="gradeInput" class="form-control" value="A" placeholder="Enter grade">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="numberInput" class="form-label">
+                                    <i class="fas fa-hashtag"></i> Enter Number for Loop
+                                </label>
+                                <input type="number" id="numberInput" class="form-control" value="5" placeholder="Enter number">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" class="btn-action" onclick="calculateGPA()">
+                                <i class="fas fa-calculator"></i> Calculate GPA
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" class="btn-action" onclick="runLoopExample()">
+                                <i class="fas fa-play"></i> Run Loop Example
+                            </button>
+                        </div>
+                    </div>
+                    <div id="interactiveResult"></div>
+                </div>
+
+                <!-- Operator Comparison -->
+                <div class="section-title">
+                    <i class="fas fa-balance-scale"></i> Operator Comparison
+                </div>
+                
+                <div class="interactive-area">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="leftOperand" class="form-label">
+                                    <i class="fas fa-code"></i> Left Operand
+                                </label>
+                                <input type="text" id="leftOperand" class="form-control" placeholder="Enter value (try null, undefined, '')">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="operatorSelect" class="form-label">
+                                    <i class="fas fa-cogs"></i> Select Operator
+                                </label>
+                                <select id="operatorSelect" class="form-control">
+                                    <option value="??">?? (Nullish Coalescing)</option>
+                                    <option value="||">|| (Logical OR)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" class="btn-action" onclick="compareOperators()">
+                                <i class="fas fa-balance-scale"></i> Compare Operators
+                            </button>
+                        </div>
+                    </div>
+                    <div id="operatorResult"></div>
+                </div>
+
+                <!-- Quick Reference Cards -->
+                <div class="section-title">
+                    <i class="fas fa-book"></i> Quick Reference
+                </div>
+                
+                <div class="row card-container">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-calculator"></i> Operators
+                            </div>
+                            <div class="card-body">
+                                <div class="code-block">? : (Ternary)</div>
+                                <div class="code-block">?? (Nullish Coalescing)</div>
+                                <div class="code-block">|| (Logical OR)</div>
+                                <div class="code-block">in (Property Check)</div>
+                                <div class="code-block">delete (Property Removal)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-code-branch"></i> Control Flow
+                            </div>
+                            <div class="card-body">
+                                <div class="code-block">if / else if / else</div>
+                                <div class="code-block">switch / case</div>
+                                <div class="code-block">for / while / do while</div>
+                                <div class="code-block">for...of / for...in</div>
+                                <div class="code-block">break / continue</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-exclamation-triangle"></i> Error Handling
+                            </div>
+                            <div class="card-body">
+                                <div class="code-block">try / catch</div>
+                                <div class="code-block">throw new Error()</div>
+                                <div class="code-block">eval() function</div>
+                                <div class="code-block">const reassignment</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("JavaScript Operators & Control Flow Playground initialized");
+            showWelcomeMessage();
+        });
+
+        // Show welcome message
+        function showWelcomeMessage() {
+            document.getElementById("output").innerHTML = `Welcome to the JavaScript Operators & Control Flow Playground!\n\nClick the buttons to explore different JavaScript operators and control flow structures.`;
+        }
+
+        // Ternary operator example
+        function showTernaryOperator() {
+            let output = "Ternary Operator (Conditional Operator) Examples:\n\n";
+            output += `Syntax: condition ? valueIfTrue : valueIfFalse\n\n`;
+            
+            function first(n) {
+                let a = (n % 2 == 0) ? "Even" : "Odd";
+                return a;
+            }
+            
+            output += `function first(n) {\n`;
+            output += `  let a = (n % 2 == 0) ? "Even" : "Odd";\n`;
+            output += `  return a;\n`;
+            output += `}\n\n`;
+            
+            output += `first(101) = "${first(101)}"\n`;
+            output += `first(100) = "${first(100)}"\n\n`;
+            
+            output += `Alternative to:\n`;
+            output += `if (n % 2 == 0) {\n`;
+            output += `  a = "Even";\n`;
+            output += `} else {\n`;
+            output += `  a = "Odd";\n`;
+            output += `}`;
+            
+            document.getElementById("output").innerHTML = output;
+        }
+
+        // Nullish coalescing examples
+        function showNullishCoalescing() {
+            let output = "Nullish Coalescing Operator (??) vs Logical OR (||):\n\n";
+            
+            output += `?? returns the right operand when the left operand is null or undefined\n`;
+            output += `|| returns the right operand when the left operand is null, undefined, or falsy\n\n`;
+            
+            let a;
+            output += `let a; (undefined)\n`;
+            output += `a ?? 0 = ${a ?? 0}\n`;
+            output += `a || 0 = ${a || 0}\n\n`;
+            
+            a = "";
+            output += `a = "" (empty string)\n`;
+            output += `a ?? 0 = "${a ?? 0}"\n`;
+            output += `a || 0 = ${a || 0}\n\n`;
+            
+            a = null;
+            output += `a = null\n`;
+            output += `a ?? 0 = ${a ?? 0}\n`;
+            output += `a || 0 = ${a || 0}\n\n`;
+            
+            a = false;
+            output += `a = false\n`;
+            output += `a ?? 0 = ${a ?? 0}\n`;
+            output += `a || 0 = ${a || 0}\n`;
+            
+            document.getElementById("output").innerHTML = output;
+        }
+
+        // Object operators examples
+        function showObjectOperators() {
+            let output = "Object Operators Examples:\n\n";
+            
+            let o = { x: 1, y: 2 };
+            output += `let o = { x: 1, y: 2 }\n\n`;
+            
+            // in operator
+            output += `"x" in o = ${"x" in o}\n`;
+            output += `"z" in o = ${"z" in o}\n\n`;
+            
+            // delete operator
+            output += `delete o.x\n`;
+            delete o.x;
+            output += `"x" in o = ${"x" in o}\n\n`;
+            
+            // Array delete
+            let arr = [1, 2, 3];
+            output += `let arr = [1, 2, 3]\n`;
+            output += `delete arr[1]\n`;
+            delete arr[1];
+            output += `arr.toString() = ${arr.toString()}\n`;
+            output += `arr.length = ${arr.length} (length doesn't change)\n\n`;
+            
+            // Array splice
+            arr = [1, 2, 3];
+            output += `arr = [1, 2, 3]\n`;
+            output += `arr.splice(1, 2) (cut from index 1, remove 2 elements)\n`;
+            arr.splice(1, 2);
+            output += `arr.toString() = ${arr.toString()}\n`;
+            output += `arr.length = ${arr.length} (length changes)\n`;
+            
+            document.getElementById("output").innerHTML = output;
+        }
+
+        // If-else examples
+        function showIfElseExamples() {
+            let output = "If-Else Examples:\n\n";
+            
+            let username;
+            output += `let username; (undefined)\n\n`;
+            
+            output += `if (username == null) {\n`;
+            output += `  username = "John Doe";\n`;
+            output += `}\n`;
+            output += `username = "${username == null ? "John Doe" : username}"\n\n`;
+            
+            output += `Alternative with falsy check:\n`;
+            output += `if (!username) {\n`;
+            output += `  username = "John Doe";\n`;
+            output += `}\n`;
+            output += `username = "${!username ? "John Doe" : username}"\n\n`;
+            
+            output += `Falsy values in JavaScript:\n`;
+            output += `- false\n`;
+            output += `- 0\n`;
+            output += `- "" (empty string)\n`;
+            output += `- null\n`;
+            output += `- undefined\n`;
+            output += `- NaN\n`;
+            
+            document.getElementById("output").innerHTML = output;
+        }
+
+        // Switch examples
+        function showSwitchExamples() {
+            let output = "Switch Statement Examples:\n\n";
+            
+            output += `function gradeGPA_IF(grade) {\n`;
+            output += `  if (grade == "A+") return 4;\n`;
+            output += `  else if (grade == "A") return 3.75;\n`;
+            output += `  else if (grade == "A-") return 3.5;\n`;
+            output += `  // ... more conditions\n`;
+            output += `  else return 0;\n`;
+            output += `}\n\n`;
+            
+            output += `function gradeGPA_SWITCH(grade) {\n`;
+            output += `  switch(grade) {\n`;
+            output += `    case "A+": return 4;\n`;
+            output += `    case "A": return 3.75;\n`;
+            output += `    case "A-": return 3.5;\n`;
+            output += `    // ... more cases\n`;
+            output += `    default: return 0;\n`;
+            output += `  }\n`;
+            output += `}\n\n`;
+            
+            output += `gradeGPA_IF("A") = ${gradeGPA_IF("A")}\n`;
+            output += `gradeGPA_SWITCH("A") = ${gradeGPA_SWITCH("A")}\n`;
+            output += `gradeGPA_IF("F") = ${gradeGPA_IF("F")}\n`;
+            output += `gradeGPA_SWITCH("F") = ${gradeGPA_SWITCH("F")}\n`;
+            
+            document.getElementById("output").innerHTML = output;
+        }
+
+        // Loop examples
+        function showLoopExamples() {
+            let output = "Loop Examples:\n\n";
+            
+            output += `For Loop:\n`;
+            output += `for (i = 1; i <= n; i++) { sum += i; }\n\n`;
+            
+            output += `While Loop:\n`;
+            output += `i = 1;\n`;
+            output += `while (i <= n) { sum += i; i++; }\n\n`;
+            
+            output += `Do-While Loop:\n`;
+            output += `i = 100;\n`;
+            output += `do { console.log("Running..."); i += 10; } while (i > 500)\n`;
+            output += `(executes at least once)\n\n`;
+            
+            output += `For...of Loop (arrays):\n`;
+            output += `for (a of data) { sum += a; }\n\n`;
+            
+            output += `For...in Loop (object properties):\n`;
+            output += `for (a in data) { sum += data[a]; }\n\n`;
+            
+            output += `Break and Continue:\n`;
+            output += `break - exits the loop immediately\n`;
+            output += `continue - skips to the next iteration\n`;
+            
+            document.getElementById("output").innerHTML = output;
+        }
+
+        // Eval example
+        function showEvalExample() {
+            let output = "Eval Function Examples:\n\n";
+            
+            output += `eval() executes JavaScript code represented as a string\n\n`;
+            
+            const geval = eval;
+            let x = "global", y = "global";
+            
+            output += `let x = "global", y = "global";\n\n`;
+            
+            function f() {
+                let x = "local";
+                eval("x += 'changed';");
+                return x;
+            }
+            
+            output += `function f() {\n`;
+            output += `  let x = "local";\n`;
+            output += `  eval("x += 'changed';");\n`;
+            output += `  return x;\n`;
+            output += `}\n\n`;
+            
+            output += `f() = "${f()}"\n`;
+            output += `Global x = "${x}" (unchanged)\n\n`;
+            
+            output += `Warning: eval() can be dangerous if used with untrusted input\n`;
+            output += `as it can execute arbitrary code.`;
+            
+            document.getElementById("output").innerHTML = output;
+        }
+
+        // Error handling examples
+        function showErrorHandling() {
+            let output = "Error Handling Examples:\n\n";
+            
+            output += `Try-Catch Block:\n`;
+            output += `try {\n`;
+            output += `  // Code that might throw an error\n`;
+            output += `} catch(e) {\n`;
+            output += `  // Handle the error\n`;
+            output += `  console.log(e.message);\n`;
+            output += `}\n\n`;
+            
+            const a2 = 10;
+            output += `const a2 = 10;\n`;
+            output += `try {\n`;
+            output += `  a2++; // Error: Assignment to constant variable\n`;
+            output += `} catch(e) {\n`;
+            output += `  console.log(e.message);\n`;
+            output += `}\n\n`;
+            
+            output += `Throwing Errors:\n`;
+            output += `throw new Error("Custom error message");\n`;
+            output += `(uncomment to see error)\n`;
+            
+            // Uncomment to see error
+            // throw new Error("Prisoner in the jail");
+            
+            document.getElementById("output").innerHTML = output;
+        }
+
+        // Interactive GPA calculator
+        function calculateGPA() {
+            let grade = document.getElementById("gradeInput").value;
+            let resultDiv = document.getElementById("interactiveResult");
+            
+            let gpa = gradeGPA_SWITCH(grade);
+            
+            let resultHTML = `
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    Grade: ${grade} = GPA: ${gpa}
+                </div>
+            `;
+            
+            resultDiv.innerHTML = resultHTML;
+            
+            // Update output
+            document.getElementById("output").innerHTML = `GPA Calculation:\n\nGrade: ${grade}\nGPA: ${gpa}\n\nUsing switch statement for multiple conditions.`;
+        }
+
+        // Interactive loop example
+        function runLoopExample() {
+            let n = parseInt(document.getElementById("numberInput").value);
+            let resultDiv = document.getElementById("interactiveResult");
+            
+            let sum = 0;
+            for (let i = 1; i <= n; i++) {
+                sum += i;
+            }
+            
+            let resultHTML = `
+                <div class="success-message">
+                    <i class="fas fa-check-circle"></i>
+                    Sum of numbers from 1 to ${n} = ${sum}
+                </div>
+            `;
+            
+            resultDiv.innerHTML = resultHTML;
+            
+            // Update output
+            document.getElementById("output").innerHTML = `Loop Example:\n\nSum of numbers from 1 to ${n} = ${sum}\n\nUsing for loop to iterate from 1 to n.`;
+        }
+
+        // Compare operators
+        function compareOperators() {
+            let leftOperand = document.getElementById("leftOperand").value;
+            let operator = document.getElementById("operatorSelect").value;
+            let resultDiv = document.getElementById("operatorResult");
+            
+            // Convert empty string to actual empty string, not undefined
+            if (leftOperand === "") {
+                leftOperand = "";
+            } else if (leftOperand === "null") {
+                leftOperand = null;
+            } else if (leftOperand === "undefined") {
+                leftOperand = undefined;
+            }
+            
+            let result;
+            let explanation;
+            
+            if (operator === "??") {
+                result = leftOperand ?? 0;
+                explanation = "?? returns the right operand (0) only if the left operand is null or undefined";
+            } else {
+                result = leftOperand || 0;
+                explanation = "|| returns the right operand (0) if the left operand is falsy (null, undefined, '', 0, false, NaN)";
+            }
+            
+            let resultHTML = `
+                <div class="result-block">
+                    <strong>Left Operand:</strong> ${leftOperand} (${typeof leftOperand})<br>
+                    <strong>Operator:</strong> ${operator}<br>
+                    <strong>Right Operand:</strong> 0<br>
+                    <strong>Result:</strong> ${result}<br><br>
+                    <strong>Explanation:</strong> ${explanation}
+                </div>
+            `;
+            
+            resultDiv.innerHTML = resultHTML;
+            
+            // Update output
+            document.getElementById("output").innerHTML = `Operator Comparison:\n\nLeft: ${leftOperand} (${typeof leftOperand})\nOperator: ${operator}\nRight: 0\nResult: ${result}\n\n${explanation}`;
+        }
+
+        // GPA calculation functions
+        function gradeGPA_IF(n) {
+            if (n == "A+") {
+                return 4;
+            } else if (n == "A") {
+                return 3.75;
+            } else if (n == "A-") {
+                return 3.5;
+            } else if (n == "B+") {
+                return 3.25;
+            } else if (n == "B") {
+                return 3;
+            } else if (n == "B-") {
+                return 2.75;
+            } else if (n == "C+") {
+                return 2.5;
+            } else if (n == "C") {
+                return 2.25;
+            } else if (n == "D") {
+                return 2;
+            } else {
+                return 0;
+            }
+        }
+
+        function gradeGPA_SWITCH(n) {
+            switch (n) {
+                case "A+":
+                    return 4;
+                case "A":
+                    return 3.75;
+                case "A-":
+                    return 3.5;
+                case "B+":
+                    return 3.25;
+                case "B":
+                    return 3;
+                case "B-":
+                    return 2.75;
+                case "C+":
+                    return 2.5;
+                case "C":
+                    return 2.25;
+                case "D":
+                    return 2;
+                default:
+                    return 0;
+            }
+        }
+    </script>
+</body>
+</html>

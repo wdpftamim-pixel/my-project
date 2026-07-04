@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Event Capture: From outermost element to the target. Example: body>div>button<br/>
+    Event Bubbling: From target to the outermost element. Example: button-div-body</h1>
+    <div style="border: 1px solid pink;"  onclick="alert('hello');">
+        <button type="button" onclick="abc(event)">Click Me</button>
+    </div>
+    <button type="button" id="mybutton">Click me again</button><br/>
+    Hello <img src="x.png" onerror="alert('hacked')" style="border: 1px solid red ;" alt="x-files"/>
+    <br>
+    <a href="Digital-clock.html" onclick="def(event)">click</a><br>
+    <button type="button" onclick="addtag()">Add a new Tag: p</button><br>
+    <div id="output" style="border: 1px solid red; margin: 10px auto;height: 50vh; width: 50vw; text-align: center;"></div>
+    <br>
+    <button onclick="hideoutput()">Hide Output</button>
+    <br>
+    <button onclick="addattribute()">Add Attribute</button><br>
+    <button onclick="inlinestyle()">Add inlinestyle</button><br>
+    <div id="subscribe" class="feadable notification">Look at me,It`s magic!</div>
+    <br><button onclick="hideme()">Hide Transparent</button>
+    <script>
+        function abc(event){
+            event.stopPropagation();
+            console.log(document.URL);
+            let name= new URL(document.URL).searchParams.get('name');
+            document.querySelector('h1').innerHTML="Hello"=name;
+        }
+        function def(event){
+            event.preventDefalt();
+            console.log("hello");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom Seating Chart Manager</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px 30px;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 280px 1fr 320px;
+            gap: 0;
+            min-height: 650px;
+        }
+        
+        .sidebar {
+            background: #f8f9fa;
+            padding: 25px;
+            border-right: 1px solid #e0e0e0;
+        }
+        
+        .section-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #667eea;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+        }
+        
+        .student-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+        
+        .student-item {
+            background: white;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border: 2px solid #e0e0e0;
+            cursor: grab;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .student-item:hover {
+            border-color: #667eea;
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .student-item.seated {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .student-avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        .student-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .classroom {
+            padding: 30px;
+            background: white;
+            position: relative;
+        }
+        
+        .board {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            font-size: 18px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .seating-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .desk {
+            aspect-ratio: 1;
+            background: #f0f2f5;
+            border: 3px dashed #cbd5e0;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        
+        .desk:hover {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+        
+        .desk.occupied {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border: 3px solid #5a67d8;
+            cursor: default;
+        }
+        
+        .desk.occupied:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        .desk-number {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(255, 255, 255, 0.9);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+            color: #333;
+        }
+        
+        .desk.occupied .desk-number {
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .desk-icon {
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+        
+        .desk.occupied .desk-icon {
+            font-size: 40px;
+        }
+        
+        .desk-label {
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+        }
+        
+        .desk.occupied .desk-label {
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .student-avatar-large {
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        
+        .remove-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 24px;
+            height: 24px;
+            background: rgba(244, 67, 54, 0.9);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .desk.occupied:hover .remove-btn {
+            opacity: 1;
+        }
+        
+        .info-panel {
+            background: #f8f9fa;
+            padding: 25px;
+            border-left: 1px solid #e0e0e0;
+        }
+        
+        .stats-grid {
+            display: grid;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+        
+        .actions {
+            display: grid;
+            gap: 10px;
+        }
+        
+        .btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: white;
+            color: #667eea;
+            border: 2px solid #667eea;
+        }
+        
+        .btn-secondary:hover {
+            background: #667eea;
+            color: white;
+        }
+        
+        .selected-info {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .selected-title {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .selected-content {
+            font-size: 14px;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .cursor-info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-family: monospace;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .add-student-form {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .input-group {
+            margin-bottom: 10px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 Classroom Seating Chart Manager</h1>
+            <p class="subtitle">Drag students from the list to assign seats • Click occupied seats to view details</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="section-title">📋 Student List</div>
+                <div class="student-list" id="studentList"></div>
+                
+                <div class="add-student-form">
+                    <div class="input-group">
+                        <input type="text" id="newStudentName" placeholder="Student Name" />
+                    </div>
+                    <button class="btn btn-primary" onclick="addStudent()">+ Add Student</button>
+                </div>
+            </div>
+            
+            <div class="classroom">
+                <div class="board">📚 Teacher's Board</div>
+                <div class="seating-grid" id="seatingGrid"></div>
+            </div>
+            
+            <div class="info-panel">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Students</div>
+                        <div class="stat-value" id="totalStudents">30</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Seated</div>
+                        <div class="stat-value" id="seatedCount">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Available Seats</div>
+                        <div class="stat-value" id="availableSeats">30</div>
+                    </div>
+                </div>
+                
+                <div class="section-title">⚡ Quick Actions</div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="autoAssignSeats()">🎲 Auto-Assign All</button>
+                    <button class="btn btn-secondary" onclick="clearAllSeats()">🗑️ Clear All Seats</button>
+                    <button class="btn btn-secondary" onclick="downloadChart()">💾 Save Chart</button>
+                </div>
+                
+                <div class="selected-info" id="selectedInfo">
+                    <div class="selected-title">Selected Seat</div>
+                    <div class="selected-content">Click on a desk to view student information</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="cursor-info" id="cursorInfo">X: 0, Y: 0</div>
+    
+    <script>
+        const students = [
+            "Emma Johnson", "Liam Smith", "Olivia Brown", "Noah Davis", "Ava Wilson",
+            "Ethan Martinez", "Sophia Anderson", "Mason Taylor", "Isabella Thomas", "Lucas Moore",
+            "Mia Jackson", "Alexander White", "Charlotte Harris", "James Martin", "Amelia Thompson",
+            "Benjamin Garcia", "Harper Martinez", "Elijah Robinson", "Evelyn Clark", "Logan Rodriguez",
+            "Abigail Lewis", "Aiden Lee", "Emily Walker", "Michael Hall", "Elizabeth Allen",
+            "Daniel Young", "Sofia Hernandez", "Matthew King", "Avery Wright", "Joseph Lopez"
+        ];
+        
+        let seatingChart = Array(30).fill(null);
+        let selectedDesk = null;
+        
+        function initializeClassroom() {
+            renderStudentList();
+            renderSeatingGrid();
+            updateStats();
+        }
+        
+        function renderStudentList() {
+            const list = document.getElementById('studentList');
+            list.innerHTML = '';
+            
+            students.forEach((student, index) => {
+                const isSeated = seatingChart.includes(student);
+                const item = document.createElement('div');
+                item.className = `student-item ${isSeated ? 'seated' : ''}`;
+                item.draggable = !isSeated;
+                item.dataset.student = student;
+                
+                const initials = student.split(' ').map(n => n[0]).join('');
+                
+                item.innerHTML = `
+                    <div class="student-avatar">${initials}</div>
+                    <div class="student-name">${student}</div>
+                `;
+                
+                if (!isSeated) {
+                    item.addEventListener('dragstart', handleDragStart);
+                }
+                
+                list.appendChild(item);
+            });
+        }
+        
+        function renderSeatingGrid() {
+            const grid = document.getElementById('seatingGrid');
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < 30; i++) {
+                const desk = document.createElement('div');
+                desk.className = `desk ${seatingChart[i] ? 'occupied' : ''}`;
+                desk.dataset.index = i;
+                
+                if (seatingChart[i]) {
+                    const initials = seatingChart[i].split(' ').map(n => n[0]).join('');
+                    desk.innerHTML = `
+                        <div class="desk-number">${i + 1}</div>
+                        <div class="student-avatar-large">${initials}</div>
+                        <div class="desk-label">${seatingChart[i].split(' ')[0]}</div>
+                        <button class="remove-btn" onclick="removeStudent(${i})">×</button>
+                    `;
+                } else {
+                    desk.innerHTML = `
+                        <div class="desk-number">${i + 1}</div>
+                        <div class="desk-icon">🪑</div>
+                        <div class="desk-label">Empty</div>
+                    `;
+                }
+                
+                desk.addEventListener('dragover', handleDragOver);
+                desk.addEventListener('drop', handleDrop);
+                desk.addEventListener('click', () => selectDesk(i));
+                
+                grid.appendChild(desk);
+            }
+        }
+        
+        function handleDragStart(e) {
+            e.dataTransfer.setData('student', e.currentTarget.dataset.student);
+        }
+        
+        function handleDragOver(e) {
+            e.preventDefault();
+        }
+        
+        function handleDrop(e) {
+            e.preventDefault();
+            const student = e.dataTransfer.getData('student');
+            const deskIndex = parseInt(e.currentTarget.dataset.index);
+            
+            if (!seatingChart[deskIndex]) {
+                seatingChart[deskIndex] = student;
+                renderStudentList();
+                renderSeatingGrid();
+                updateStats();
+            }
+        }
+        
+        function removeStudent(index) {
+            seatingChart[index] = null;
+            selectedDesk = null;
+            renderStudentList();
+            renderSeatingGrid();
+            updateStats();
+            document.getElementById('selectedInfo').innerHTML = `
+                <div class="selected-title">Selected Seat</div>
+                <div class="selected-content">Click on a desk to view student information</div>
+            `;
+        }
+        
+        function selectDesk(index) {
+            selectedDesk = index;
+            const info = document.getElementById('selectedInfo');
+            
+            if (seatingChart[index]) {
+                info.innerHTML = `
+                    <div class="selected-title">Seat ${index + 1}</div>
+                    <div class="selected-content">
+                        <strong>${seatingChart[index]}</strong><br>
+                        Row: ${Math.floor(index / 6) + 1}<br>
+                        Column: ${(index % 6) + 1}<br>
+                        Position: ${index % 6 < 3 ? 'Left Side' : 'Right Side'}
+                    </div>
+                `;
+            } else {
+                info.innerHTML = `
+                    <div class="selected-title">Seat ${index + 1}</div>
+                    <div class="selected-content">
+                        This seat is currently empty.<br>
+                        Row: ${Math.floor(index / 6) + 1}<br>
+                        Column: ${(index % 6) + 1}
+                    </div>
+                `;
+            }
+        }
+        
+        function updateStats() {
+            const seated = seatingChart.filter(s => s !== null).length;
+            document.getElementById('totalStudents').textContent = students.length;
+            document.getElementById('seatedCount').textContent = seated;
+            document.getElementById('availableSeats').textContent = 30 - seated;
+        }
+        
+        function autoAssignSeats() {
+            const unassigned = students.filter(s => !seatingChart.includes(s));
+            const emptySeats = seatingChart.map((s, i) => s === null ? i : -1).filter(i => i !== -1);
+            
+            unassigned.forEach((student, idx) => {
+                if (emptySeats[idx] !== undefined) {
+                    seatingChart[emptySeats[idx]] = student;
+                }
+            });
+            
+            renderStudentList();
+            renderSeatingGrid();
+            updateStats();
+        }
+        
+        function clearAllSeats() {
+            if (confirm('Are you sure you want to clear all seat assignments?')) {
+                seatingChart = Array(30).fill(null);
+                selectedDesk = null;
+                renderStudentList();
+                renderSeatingGrid();
+                updateStats();
+            }
+        }
+        
+        function downloadChart() {
+            let chartText = 'CLASSROOM SEATING CHART\n';
+            chartText += '========================\n\n';
+            
+            for (let row = 0; row < 5; row++) {
+                chartText += `Row ${row + 1}:\n`;
+                for (let col = 0; col < 6; col++) {
+                    const index = row * 6 + col;
+                    const student = seatingChart[index] || 'Empty';
+                    chartText += `  Seat ${index + 1}: ${student}\n`;
+                }
+                chartText += '\n';
+            }
+            
+            const blob = new Blob([chartText], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'seating-chart.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+        
+        function addStudent() {
+            const input = document.getElementById('newStudentName');
+            const name = input.value.trim();
+            
+            if (name && !students.includes(name)) {
+                students.push(name);
+                input.value = '';
+                renderStudentList();
+                updateStats();
+            } else if (students.includes(name)) {
+                alert('This student already exists!');
+            }
+        }
+        
+        document.addEventListener('mousemove', (e) => {
+            document.getElementById('cursorInfo').textContent = `X: ${e.clientX}, Y: ${e.clientY}`;
+        });
+        
+        document.getElementById('newStudentName').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addStudent();
+            }
+        });
+        
+        initializeClassroom();
+    </script>
+</body>
+</html>

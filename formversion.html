@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- Professional Styling --- */
+        body {
+            background-color: #f4f7f6; /* Soft gray/blue background */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .main-container {
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1); /* Soft shadow */
+        }
+
+        .card-header {
+            background: linear-gradient(45deg, #0d6efd, #0a58ca); /* Gradient Header */
+            color: white;
+            border-radius: 15px 15px 0 0 !important;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+        }
+
+        /* Custom error container styling */
+        .error-container {
+            color: #dc3545;
+            font-size: 0.875em;
+            margin-top: 5px;
+            display: none; /* Hidden by default */
+        }
+
+        .btn-custom {
+            padding: 10px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+            transition: all 0.3s;
+        }
+        
+        .btn-custom:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(25, 135, 84, 0.3);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container main-container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-user-graduate me-2"></i>Registration Form</h3>
+                </div>
+                <div class="card-body p-4">
+                    
+                    <form id="regForm">
+                        <div class="row mb-3">
+                            <label for="Name" class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="Name" class="form-control" placeholder="Enter full name" /> 
+                                <div class="invalid-feedback">Please enter your name.</div>
+                            </div>       
+                        </div>        
+                        
+                        <div class="row mb-3">            
+                            <label for="contact" class="col-sm-3 col-form-label">Contact</label>        
+                            <div class="col-sm-9">
+                                <input type="text" id="contact" class="form-control" placeholder="Phone or Email" /> 
+                                <div class="invalid-feedback">Please enter contact details.</div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="remark" class="col-sm-3 col-form-label">Remark</label> 
+                            <div class="col-sm-9">
+                                <textarea id="remark" rows="3" class="form-control" placeholder="Add any comments..."></textarea> 
+                                <div class="invalid-feedback">Please add a remark.</div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label class="col-sm-3 col-form-label">Gender</label> 
+                            <div class="col-sm-9">
+                                <div id="genderWrapper" class="p-2 border rounded bg-light">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="male" value="Male">
+                                        <label class="form-check-label" for="male">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="female" value="Female">
+                                        <label class="form-check-label" for="female">Female</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="gender" id="common" value="Other">
+                                        <label class="form-check-label" for="common">Other</label>
+                                    </div>
+                                </div>
+                                <div id="genderError" class="error-container">Please select a gender.</div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="location" class="col-sm-3 col-form-label">Location</label>
+                            <div class="col-sm-9">
+                                <select id="location" class="form-select">
+                                    <option value="">-- Select Location --</option>
+                                    <option value="Chittagong">Chittagong</option>
+                                    <option value="Khulna">Khulna</option>
+                                    <option value="Dhaka">Dhaka</option>
+                                </select>
+                                <div class="invalid-feedback">Please select a location.</div>
+                            </div>
+                        </div>    
+                        
+                        <div class="row mb-4">   
+                            <label class="col-sm-3 col-form-label">Course</label>
+                            <div class="col-sm-9">
+                                <div id="courseWrapper" class="p-2 border rounded bg-light">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="course" value="NT" id="crs1">
+                                        <label class="form-check-label" for="crs1">NT</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="course" value="ESAD" id="crs2">
+                                        <label class="form-check-label" for="crs2">ESAD</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="checkbox" name="course" value="WDPF" id="crs3">
+                                        <label class="form-check-label" for="crs3">WDPF</label>
+                                    </div>
+                                </div>
+                                <div id="courseError" class="error-container">Please select at least one course.</div>
+                            </div>    
+                        </div> 
+
+                        <div class="row">
+                            <div class="col-12 text-end">
+                                <button type="button" class="btn btn-success btn-custom" id="btnSubmit">
+                                    <i class="fas fa-check-circle me-1"></i> Submit Form
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="resultModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered"> 
+        <div class="modal-content">  
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title"><i class="fas fa-check"></i> Success</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>     
+            <div class="modal-body">
+                <div id="output"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        const btnSubmit = document.getElementById('btnSubmit');
+        const resultModal = new bootstrap.Modal(document.getElementById('resultModal'));
+
+        // Main Submit Function
+        btnSubmit.addEventListener('click', function() {
+            // 1. Reset Errors
+            resetValidation();
+
+            let hasError = false;
+
+            // 2. Get Values
+            const nameInput = document.getElementById("Name");
+            const contactInput = document.getElementById("contact");
+            const remarkInput = document.getElementById("remark");
+            const locationInput = document.getElementById("location");
+            
+            const genderSelected = document.querySelector('input[name="gender"]:checked');
+            const coursesSelected = document.querySelectorAll("input[name='course']:checked");
+
+            // 3. Validation Logic
+            
+            // Check Name
+            if(nameInput.value.trim() === "") {
+                setError(nameInput);
+                hasError = true;
+            }
+
+            // Check Contact
+            if(contactInput.value.trim() === "") {
+                setError(contactInput);
+                hasError = true;
+            }
+
+            // Check Remark
+            if(remarkInput.value.trim() === "") {
+                setError(remarkInput);
+                hasError = true;
+            }
+
+            // Check Location
+            if(locationInput.value === "") {
+                setError(locationInput);
+                hasError = true;
+            }
+
+            // Check Gender
+            if(!genderSelected) {
+                document.getElementById('genderWrapper').classList.add('border-danger');
+                document.getElementById('genderError').style.display = 'block';
+                hasError = true;
+            }
+
+            // Check Courses
+            if(coursesSelected.length === 0) {
+                document.getElementById('courseWrapper').classList.add('border-danger');
+                document.getElementById('courseError').style.display = 'block';
+                hasError = true;
+            }
+
+            // 4. Result
+            if(!hasError) {
+                // Prepare Output
+                let coursesList = Array.from(coursesSelected).map(c => c.value).join(", ");
+                
+                let htmlOutput = `
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-success">
+                            <tr><th>Field</th><th>Details</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Name</td><td>${nameInput.value}</td></tr>
+                            <tr><td>Contact</td><td>${contactInput.value}</td></tr>
+                            <tr><td>Remark</td><td>${remarkInput.value}</td></tr>
+                            <tr><td>Gender</td><td>${genderSelected.value}</td></tr>
+                            <tr><td>Location</td><td>${locationInput.value}</td></tr>
+                            <tr><td>Courses</td><td>${coursesList}</td></tr>
+                        </tbody>
+                    </table>`;
+                
+                document.getElementById("output").innerHTML = htmlOutput;
+                
+                // Show Modal via JS
+                resultModal.show();
+            }
+        });
+
+        // --- Helper Functions ---
+
+        // Adds Bootstrap error class to input
+        function setError(element) {
+            element.classList.add('is-invalid');
+        }
+
+        // Clears all previous error states
+        function resetValidation() {
+            // Clear inputs
+            document.querySelectorAll('.form-control, .form-select').forEach(el => {
+                el.classList.remove('is-invalid');
+            });
+            
+            // Clear custom wrappers (Gender/Course)
+            document.getElementById('genderWrapper').classList.remove('border-danger');
+            document.getElementById('genderError').style.display = 'none';
+            
+            document.getElementById('courseWrapper').classList.remove('border-danger');
+            document.getElementById('courseError').style.display = 'none';
+        }
+
+        // --- Real-time Error Clearing (Optional but good for UX) ---
+        // When user types or clicks, remove the red error immediately
+        const inputs = document.querySelectorAll('.form-control, .form-select');
+        inputs.forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('is-invalid');
+            });
+        });
+
+        const radios = document.querySelectorAll('input[name="gender"]');
+        radios.forEach(r => {
+            r.addEventListener('change', function() {
+                document.getElementById('genderWrapper').classList.remove('border-danger');
+                document.getElementById('genderError').style.display = 'none';
+            });
+        });
+        
+        const checks = document.querySelectorAll('input[name="course"]');
+        checks.forEach(c => {
+            c.addEventListener('change', function() {
+                document.getElementById('courseWrapper').classList.remove('border-danger');
+                document.getElementById('courseError').style.display = 'none';
+            });
+        });
+
+    });
+</script>
+</body>
+</html>

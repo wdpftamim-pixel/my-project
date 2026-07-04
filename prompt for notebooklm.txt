@@ -1,0 +1,75 @@
+Role: You are an expert Physics Teacher and Instructional Designer.
+
+Goal: Create a comprehensive outline for a classroom presentation (Slide Deck) based on "Chapter 3: Force." The goal is to make abstract concepts (like Inertia and Force Graphs) concrete and easy to understand for students.
+
+Format: For each slide, provide:
+
+    Slide Title
+
+    Visual Concept: (Describe what image, diagram, or graph should be on the screen).
+
+    Key Bullet Points: (Concise text for the student to read).
+
+    Speaker Notes: (A script or explanation for the teacher to say, including analogies).
+
+Scope & Structure:
+
+Slide 1: The Hook - Why Things Move?
+
+    Content: Contrast the old idea (motion needs constant force) with Newton's insight.
+
+    Source Context: Reference the introduction where it discusses how we rarely see perpetual motion due to friction.
+
+Slide 2: Newton's First Law (The Law of Inertia)
+
+    Definition: Present the formal definition of the First Law.
+
+    Visual: A split screen showing a "Space" environment (no friction) vs. an "Earth" environment (friction/air resistance).
+
+    Key Concept: Explain that a stationary object stays stationary, and a moving object stays moving unless a force acts on it.
+
+Slide 3: Inertia in Real Life (Interactive)
+
+    Scenarios: Explain the "Bus/Car" examples.
+
+        Inertia of Rest: Why we fall backward when the car starts.
+
+        Inertia of Motion: Why we fall forward when the brakes are hit.
+
+    Experiment: Describe the "Coin on Card" experiment mentioned in the text as a quick classroom demo.
+
+Slide 4: Mass vs. Inertia
+
+    Relationship: Explain the direct link between Mass and Inertia.
+
+    Visual: Compare pushing a toy car vs. a real truck.
+
+    Takeaway: "Greater mass = Greater inertia" (Harder to start, harder to stop).
+
+Slide 5: DEEP DIVE - Analyzing Motion Graphs (Crucial Slide)
+
+    Visual: Describe the "Position-Time" and "Velocity-Time" graphs from Figure 3.01.
+
+    Analysis: Break down the specific time intervals (0 to t1​, t1​ to t2​).
+
+    Logic:
+
+        Explain clearly that in the Position graph, a straight slope means velocity is constant, so Force = 0.
+
+        Explain that in the Velocity graph, a slope means velocity is changing, so Force is present.
+
+    Goal: Help students identify exactly when force is applied just by looking at the line shape.
+
+Slide 6: The 4 Fundamental Forces
+
+    Concept: Reveal that despite the millions of ways we see force (pushing, pulling, wind), there are actually only 4 fundamental types.
+
+    List: Gravitational, Electromagnetic, Weak Nuclear, Strong Nuclear.
+
+    Focus: Briefly highlight Gravitational force (planetary motion/weight) as the most relatable example.
+
+Slide 7: Summary & Class Challenge
+
+    Recap: Newton's 1st Law, Inertia, and the 4 Forces.
+
+    Question: A critical thinking question for the class to end the lecture.

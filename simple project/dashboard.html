@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard — Mini Web App</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body onload="loadTasks(); loadCharts();">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Mini Web App</a>
+      <div class="d-flex align-items-center">
+        <button class="btn btn-outline-secondary me-2" onclick="toggleDarkMode()">Theme</button>
+        <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">Logout</button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-4">
+    <div class="row g-4">
+
+      <!-- Left column: Tools -->
+      <div class="col-lg-8">
+        <div class="row g-3">
+
+          <!-- Cards: Prime / Factorial / Series -->
+          <div class="col-md-4">
+            <div class="card p-3 animated-card">
+              <h6 class="mb-2">Prime Checker</h6>
+              <input id="primeInput" class="form-control" placeholder="Enter number" />
+              <button class="btn btn-primary btn-sm mt-2 w-100" onclick="checkPrime()">Check</button>
+              <p id="primeResult" class="fw-bold mt-2"></p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card p-3 animated-card">
+              <h6 class="mb-2">Factorial</h6>
+              <input id="factInput" class="form-control" placeholder="Enter number" />
+              <button class="btn btn-warning btn-sm mt-2 w-100" onclick="factorial()">Calc</button>
+              <p id="factResult" class="fw-bold mt-2"></p>
+            </div>
+          </div>
+
+          <div class="col-md-4">
+            <div class="card p-3 animated-card">
+              <h6 class="mb-2">Sum (1 to n)</h6>
+              <input id="sumInput" class="form-control" placeholder="Enter n" />
+              <button class="btn btn-success btn-sm mt-2 w-100" onclick="series()">Calc</button>
+              <p id="sumResult" class="fw-bold mt-2"></p>
+            </div>
+          </div>
+
+          <!-- To-Do -->
+          <div class="col-12">
+            <div class="card p-3 animated-card">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <h6 class="mb-0">To-Do List</h6>
+                <small class="text-muted">Saved in LocalStorage</small>
+              </div>
+
+              <div class="input-group mb-2">
+                <input id="task" class="form-control" placeholder="Add a task" />
+                <button class="btn btn-primary" onclick="addTask()">Add</button>
+              </div>
+
+              <ul id="tasks" class="list-group"></ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Right column: Charts & quick info -->
+      <div class="col-lg-4">
+        <div class="card p-3 mb-3 animated-card">
+          <h6>Tasks Overview</h6>
+          <canvas id="pieChart" height="200"></canvas>
+        </div>
+
+        <div class="card p-3 mb-3 animated-card">
+          <h6>Visitors (example)</h6>
+          <canvas id="lineChart" height="160"></canvas>
+        </div>
+
+        <div class="card p-3 animated-card">
+          <h6>User Info</h6>
+          <p class="mb-1"><strong>User:</strong> <span id="currentUser"></span></p>
+          <p class="mb-0"><strong>Theme:</strong> <span id="themeName">Auto</span></p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Logout Confirmation Modal (Bootstrap) -->
+  <div class="modal fade" id="logoutModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Confirm Logout</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          Are you sure you want to logout?
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-danger" onclick="doLogout()">Logout</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap, Chart.js already loaded in head -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="app.js"></script>
+
+  <script>
+    // show current user and theme in the sidebar card
+    const current = localStorage.getItem("session") || sessionStorage.getItem("session") || "Guest";
+    document.getElementById("currentUser").innerText = current;
+
+    const themeName = localStorage.getItem("darkMode") === "true" ? "Dark" : "Light";
+    document.getElementById("themeName").innerText = themeName;
+
+    // doLogout used by modal
+    function doLogout(){
+      localStorage.removeItem("session");
+      sessionStorage.removeItem("session");
+      // hide modal (Bootstrap)
+      const m = bootstrap.Modal.getInstance(document.getElementById('logoutModal'));
+      if (m) m.hide();
+      window.location = "index.html";
+    }
+
+    // small animation class for cards
+    document.querySelectorAll('.animated-card').forEach((el, idx) => {
+      el.style.transform = 'translateY(10px)';
+      el.style.opacity = 0;
+      setTimeout(()=> {
+        el.style.transform = 'translateY(0)';
+        el.style.opacity = 1;
+      }, 80 * idx);
+    });
+  </script>
+</body>
+</html>
